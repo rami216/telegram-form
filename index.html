@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Builder Setup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      body {
+        /* Matches the user's native Telegram theme colors automatically */
+        background-color: var(--tg-theme-bg-color, #f3f4f6);
+        color: var(--tg-theme-text-color, #111827);
+      }
+      .btn-primary {
+        background-color: var(--tg-theme-button-color, #3b82f6);
+        color: var(--tg-theme-button-text-color, #ffffff);
+      }
+    </style>
+  </head>
+  <body class="p-6">
+    <div
+      class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mt-4"
+    >
+      <h2 class="text-2xl font-bold mb-2 text-gray-800">
+        Launch Your Website 🚀
+      </h2>
+      <p class="text-gray-600 mb-6 text-sm">
+        Fill in your details below. Our AI will use this exact info to code your
+        site!
+      </p>
+
+      <form id="businessForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Business Name</label
+          >
+          <input
+            type="text"
+            id="businessName"
+            required
+            placeholder="e.g. Brussels Pizza Pro"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >What do you do?</label
+          >
+          <textarea
+            id="description"
+            required
+            rows="2"
+            placeholder="e.g. We make the best wood-fired pizza in the city."
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Pages Needed</label
+          >
+          <input
+            type="text"
+            id="pages"
+            required
+            placeholder="e.g. Home, Menu, Contact"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Pricing / Core Services</label
+          >
+          <textarea
+            id="pricing"
+            required
+            rows="2"
+            placeholder="e.g. Margherita $10, Pepperoni $12"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Location (For Google Maps)</label
+          >
+          <input
+            type="text"
+            id="location"
+            required
+            placeholder="e.g. Sint-Jans-Molenbeek, Brussels"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Contact Info</label
+          >
+          <input
+            type="text"
+            id="contact"
+            required
+            placeholder="e.g. Phone or Email"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full btn-primary font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+        >
+          Generate My Website ($5)
+        </button>
+      </form>
+    </div>
+
+    <script>
+      // Initialize the Telegram Mini App
+      let tg = window.Telegram.WebApp;
+      tg.expand(); // Makes the app take up the full screen height
+
+      // Intercept the form submission
+      document
+        .getElementById("businessForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Stop the page from reloading
+
+          // Gather all the data into a JSON object
+          const formData = {
+            intent: "form_submitted",
+            businessName: document.getElementById("businessName").value,
+            description: document.getElementById("description").value,
+            pages: document.getElementById("pages").value,
+            pricing: document.getElementById("pricing").value,
+            location: document.getElementById("location").value,
+            contact: document.getElementById("contact").value,
+          };
+
+          // Send the data back to the Telegram chat silently and close the Mini App
+          tg.sendData(JSON.stringify(formData));
+        });
+    </script>
+  </body>
+</html>
