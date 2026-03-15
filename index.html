@@ -121,15 +121,13 @@
     <script>
       // Initialize the Telegram Mini App
       let tg = window.Telegram.WebApp;
-      tg.expand(); // Makes the app take up the full screen height
+      tg.expand();
 
-      // Intercept the form submission
       document
         .getElementById("businessForm")
         .addEventListener("submit", function (e) {
-          e.preventDefault(); // Stop the page from reloading
+          e.preventDefault();
 
-          // Gather all the data into a JSON object
           const formData = {
             intent: "form_submitted",
             businessName: document.getElementById("businessName").value,
@@ -140,8 +138,13 @@
             contact: document.getElementById("contact").value,
           };
 
-          // Send the data back to the Telegram chat silently and close the Mini App
+          // 1. First, send the data string
           tg.sendData(JSON.stringify(formData));
+
+          // 2. Add this: Force the app to close so the user sees the chat again!
+          setTimeout(() => {
+            tg.close();
+          }, 100);
         });
     </script>
   </body>
