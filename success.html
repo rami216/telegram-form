@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Successful</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      body {
+        /* Matches the user's native Telegram theme colors automatically */
+        background-color: var(--tg-theme-bg-color, #f3f4f6);
+        color: var(--tg-theme-text-color, #111827);
+      }
+      .btn-primary {
+        background-color: var(--tg-theme-button-color, #3b82f6);
+        color: var(--tg-theme-button-text-color, #ffffff);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-4">
+    <div
+      class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100"
+    >
+      <div
+        class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner"
+      >
+        <svg
+          class="w-12 h-12 text-green-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            d="M5 13l4 4L19 7"
+          ></path>
+        </svg>
+      </div>
+
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-4">
+        Payment Successful! 🎉
+      </h2>
+
+      <p class="text-gray-600 mb-8 text-lg leading-relaxed">
+        Thanks for your payment! You can now safely close this window. Your AI
+        website is being generated and we will send you a message with the link
+        shortly. 🚀
+      </p>
+
+      <button
+        onclick="closeWindow()"
+        class="w-full btn-primary font-bold py-4 px-4 rounded-xl shadow-md transition-transform active:scale-95 text-lg"
+      >
+        Close Window
+      </button>
+    </div>
+
+    <script>
+      // Initialize the Telegram Mini App
+      let tg = window.Telegram.WebApp;
+      tg.expand();
+
+      function closeWindow() {
+        // Try to close the Telegram Web App if they are inside it
+        if (tg.initDataUnsafe && Object.keys(tg.initDataUnsafe).length > 0) {
+          tg.close();
+        } else {
+          // If they are in a normal browser like Safari/Chrome
+          window.close();
+          // Fallback just in case the browser blocks window.close()
+          document.body.innerHTML = `
+            <div class="min-h-screen flex items-center justify-center p-4">
+              <p class="text-xl font-bold text-gray-600 text-center">
+                You can safely close this tab now.
+              </p>
+            </div>`;
+        }
+      }
+    </script>
+  </body>
+</html>
