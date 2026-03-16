@@ -16,10 +16,6 @@
         background-color: var(--tg-theme-button-color, #3b82f6);
         color: var(--tg-theme-button-text-color, #ffffff);
       }
-      /* Smooth transitions for the pricing cards */
-      .tier-card {
-        transition: all 0.2s ease-in-out;
-      }
     </style>
   </head>
   <body class="p-4 md:p-6">
@@ -113,54 +109,12 @@
           />
         </div>
 
-        <div class="pt-2">
-          <label class="block text-sm font-medium text-gray-700 mb-2"
-            >Select Your Package</label
-          >
-          <div class="grid grid-cols-2 gap-3">
-            <label
-              id="label-pro"
-              class="tier-card relative border-2 border-blue-500 bg-blue-50 rounded-lg p-3 cursor-pointer hover:bg-gray-50 flex flex-col items-center text-center"
-            >
-              <input
-                type="radio"
-                name="tier"
-                value="pro"
-                class="hidden"
-                checked
-                onchange="updateTier('pro', 5)"
-              />
-              <span class="font-bold text-gray-800 text-sm">Professional</span>
-              <span class="text-blue-600 font-extrabold text-lg mt-1">$5</span>
-              <span class="text-xs text-gray-500 mt-1">Standard AI Design</span>
-            </label>
-
-            <label
-              id="label-super"
-              class="tier-card relative border-2 border-gray-200 bg-white rounded-lg p-3 cursor-pointer hover:bg-gray-50 flex flex-col items-center text-center"
-            >
-              <input
-                type="radio"
-                name="tier"
-                value="super"
-                class="hidden"
-                onchange="updateTier('super', 10)"
-              />
-              <span class="font-bold text-gray-800 text-sm">Super Pro ✨</span>
-              <span class="text-blue-600 font-extrabold text-lg mt-1">$10</span>
-              <span class="text-xs text-gray-500 mt-1"
-                >Premium UI & Animations</span
-              >
-            </label>
-          </div>
-        </div>
-
         <button
           type="submit"
           id="submit-btn"
           class="w-full btn-primary font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-6"
         >
-          Generate My Website ($5)
+          Save Data
         </button>
       </form>
     </div>
@@ -170,37 +124,6 @@
       let tg = window.Telegram.WebApp;
       tg.expand();
 
-      // State variables to track selection
-      let selectedTier = "pro";
-      let selectedPrice = 5;
-
-      // Function to handle UI updates when user clicks a tier
-      function updateTier(tier, price) {
-        selectedTier = tier;
-        selectedPrice = price;
-
-        const labelPro = document.getElementById("label-pro");
-        const labelSuper = document.getElementById("label-super");
-        const submitBtn = document.getElementById("submit-btn");
-
-        if (tier === "pro") {
-          labelPro.classList.add("border-blue-500", "bg-blue-50");
-          labelPro.classList.remove("border-gray-200", "bg-white");
-
-          labelSuper.classList.remove("border-blue-500", "bg-blue-50");
-          labelSuper.classList.add("border-gray-200", "bg-white");
-        } else {
-          labelSuper.classList.add("border-blue-500", "bg-blue-50");
-          labelSuper.classList.remove("border-gray-200", "bg-white");
-
-          labelPro.classList.remove("border-blue-500", "bg-blue-50");
-          labelPro.classList.add("border-gray-200", "bg-white");
-        }
-
-        // Dynamically update the button text
-        submitBtn.innerText = `Generate My Website ($${price})`;
-      }
-
       // Form submission logic
       document
         .getElementById("businessForm")
@@ -209,8 +132,8 @@
 
           const formData = {
             intent: "form_submitted",
-            tier: selectedTier, // "pro" or "super"
-            price: selectedPrice, // 5 or 10
+            tier: "pro", // Defaulting to pro silently
+            price: 5, // Defaulting to $5 silently
             businessName: document.getElementById("businessName").value,
             description: document.getElementById("description").value,
             pages: document.getElementById("pages").value,
@@ -219,7 +142,7 @@
             contact: document.getElementById("contact").value,
           };
 
-          // Send data to Telegram Bot
+          // Send data back to Telegram Bot
           tg.sendData(JSON.stringify(formData));
 
           // Force the app to close
